@@ -35,6 +35,7 @@ class Deck extends Component {
 
         this.panResponder = panResponder;
         this.position = position;
+        this.state = { index: 0}
     }
 
     getCardStyle() {
@@ -60,7 +61,13 @@ class Deck extends Component {
         Animated.timing(this.position, {
             toValue: { x: x * 2, y: 0 },
             duration: SWIPE_OUT_DURATION
-        }).start();
+        }).start(() => this.onSwipeComplete(direction));
+    }
+
+    onSwipeComplete(direction) {
+        const { onSwipeLeft, onSwipeRight } = this.props;
+        
+        direction === 'righy' ? onSwipeRight() : onSwipeLeft();
     }
 
     renderCards() {
